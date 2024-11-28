@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "663232087108",
+    "project_id": "lend-d9fd9",
+    "storage_bucket": "lend-d9fd9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663232087108:android:f27942452a195f171ba811",
+        "android_client_info": {
+          "package_name": "com.example.lend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxmrtu_NvzMNxDF44qeD0xAHsrbcgNVfw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
