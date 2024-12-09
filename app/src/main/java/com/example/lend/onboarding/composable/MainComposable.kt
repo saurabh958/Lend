@@ -1,4 +1,4 @@
-package com.example.lend.composable
+package com.example.lend.onboarding.composable
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

@@ -1,4 +1,4 @@
-package com.example.lend.viewmodel
+package com.example.lend.onboarding.viewmodel
 
 import android.app.Activity
 import android.content.Context
@@ -9,11 +9,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.lend.onboarding.repository.LoginRepoImplementation
+import com.example.lend.onboarding.repository.LoginRepoInterface
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainActivityViewModel : ViewModel() {
+@HiltViewModel
+class MainActivityViewModel @Inject constructor(private val repository: LoginRepoInterface) : ViewModel() {
+
+
     var emailValue by mutableStateOf("")
         private set
     var emailError by mutableStateOf("")
@@ -75,21 +84,12 @@ class MainActivityViewModel : ViewModel() {
         password: String,
         callBack: (Boolean, FirebaseUser?) -> Unit
     ) {
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(context) { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "signUpNewUser: signed in  successfully ")
-                    val user = auth.currentUser
-                    Log.d(TAG, "signUpNewUser: user data is $user and email is ${user?.email}")
-                    callBack(true, auth.currentUser)
-                } else {
-                    Log.e(TAG, "signUpNewUser: signup failed")
-                    callBack(false, null)
-                }
-            }
+        viewModelScope.launch {
+            repository.signUpNewUser(context, auth, email, password, callBack)
+        }
     }
 
     companion object {
-        private const val TAG = "TEST!"
+        const val TAG = "TEST!"
     }
 }
