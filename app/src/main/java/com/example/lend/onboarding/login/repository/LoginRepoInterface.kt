@@ -1,4 +1,4 @@
-package com.example.lend.onboarding.repository
+package com.example.lend.onboarding.login.repository
 
 import android.app.Activity
 import com.google.firebase.auth.FirebaseAuth

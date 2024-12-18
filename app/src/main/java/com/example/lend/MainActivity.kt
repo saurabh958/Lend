@@ -1,43 +1,23 @@
 package com.example.lend
 
 import android.os.Bundle
-import android.widget.Toast
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.lend.onboarding.composable.TextFieldComposable
+import androidx.navigation.compose.rememberNavController
+import com.example.lend.navigation.app_navigation.AppNavHost
 import com.example.lend.ui.theme.LendTheme
-import com.example.lend.onboarding.view.Greeting
-import com.example.lend.onboarding.viewmodel.MainActivityViewModel
+import com.example.lend.onboarding.login.view.LoginComposable
+import com.example.lend.onboarding.login.viewmodel.MainActivityViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -52,8 +32,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-
-        val viewModel: MainActivityViewModel by viewModels()
+        Log.d("TEST!", "onCreate: ")
         auth = Firebase.auth
         setContent {
             LendTheme {
@@ -62,7 +41,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting(this, auth, viewModel)
+                    AppNavHost(context = this, auth = auth)
+                    //LoginComposable(this, auth)
                 }
             }
         }
@@ -71,6 +51,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
+        Log.d("TEST!", "onStart: ")
         /*val currentUser = auth.currentUser
         if (currentUser != null) {
             //user is already logged in proceed with next step

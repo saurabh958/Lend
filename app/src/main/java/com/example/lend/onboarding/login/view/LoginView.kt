@@ -1,4 +1,4 @@
-package com.example.lend.onboarding.view
+package com.example.lend.onboarding.login.view
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -25,16 +25,19 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.lend.MainActivity
+import com.example.lend.navigation.app_navigation.AppNavigation
 import com.example.lend.onboarding.composable.TextFieldComposable
-import com.example.lend.onboarding.viewmodel.MainActivityViewModel
+import com.example.lend.onboarding.login.viewmodel.MainActivityViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun Greeting(
+fun LoginComposable(
     context: MainActivity,
     auth: FirebaseAuth,
     viewModel: MainActivityViewModel,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
 
@@ -92,8 +95,8 @@ fun Greeting(
         )
         ElevatedButton(
             onClick = {
-                isLoading = true
                 if (viewModel.validateForm()) {
+                    isLoading = true
                     viewModel.signUpNewUser(
                         context = context,
                         auth = auth,
@@ -104,6 +107,11 @@ fun Greeting(
                         if (isSignUpSuccess) {
                             // go to next screen
                             Toast.makeText(context, "Sign Up Success", Toast.LENGTH_SHORT).show()
+                            navController.navigate(AppNavigation.Home.route) {
+                                popUpTo(AppNavigation.Login.route) {
+                                    inclusive = true
+                                }
+                            }
                         } else {
                             //handle failure cases
                             Toast.makeText(context, "Sign Up Failed", Toast.LENGTH_SHORT).show()
@@ -129,6 +137,18 @@ fun Greeting(
                     text = "Login",
                 )
             }
+        }
+        Spacer(modifier = modifier
+            .padding(top = 20.dp))
+        ElevatedButton(
+            onClick = {
+                      navController.navigate(AppNavigation.Signup.route)
+            },
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
+        ) {
+            Text(text = "Sign Up")
         }
 
     }
